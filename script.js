@@ -5,24 +5,22 @@ function createPromise() {
 	const startTime = Date.now();
 	const delay = Math.floor(Math.random() * 2000) + 1000;
 
+	function createPromise(){
 	return new Promise((resolve) =>{
+		 const time = Math.floor(Math.random() * 3) + 1;
 		setTimeout(() => {
-			const timeTaken = (Date.now() - startTime)/1000;
-			resolve(timeTaken);
-		},delay);
+		
+			resolve(time);
+		},time * 1000);
 	});
 }
 
-const promise1 = createPromise();
-const promise2 =  createPromise();
-const promise3 =  createPromise();
 
-const totalStartTime = Date.now();
-
-Promise.all([promise1, promise2, promise3])
-    .then((results) => {
-        const totalTime = (Date.now() - totalStartTime) / 1000;
-
+Promise.all([
+    createPromise(),
+    createPromise(),
+    createPromise()
+]).then((results) => {
         // Remove the Loading... row
         output.innerHTML = "";
 
@@ -39,11 +37,12 @@ Promise.all([promise1, promise2, promise3])
         });
 
         // Display total execution time
-        const totalRow = document.createElement("tr");
+        const totalTime = Math.max(...results);
+		const totalRow = document.createElement("tr");
 
         totalRow.innerHTML = `
-            <td><strong>Total</strong></td>
-            <td><strong>${totalTime.toFixed(3)}</strong></td>
+            <td><b>Total</b></td>
+            <td><b>${totalTime.toFixed(3)}</b></td>
         `;
 
         output.appendChild(totalRow);
